@@ -1,8 +1,9 @@
 import { Component, Input, Output } from '@angular/core';
+import { PrecoFormatadoPipe } from '../../pipes/preco-formatado-pipe';
 
 @Component({
   selector: 'app-produto',
-  imports: [],
+  imports: [ PrecoFormatadoPipe ],
   templateUrl: './produto.html',
   styleUrl: './produto.css',
 })
