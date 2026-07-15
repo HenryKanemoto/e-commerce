@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ListaProdutos } from './component/lista-produtos/lista-produtos';
+import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
 //!import { RouterOutlet } from '@angular/router'; // Remove importação do Router
 
 @Component({
