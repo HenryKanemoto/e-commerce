@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Produto } from '../../components/produto/produto';
+import { Produto } from '../produto/produto';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -8,8 +8,8 @@ import { Produto } from '../../components/produto/produto';
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-  produtos: Produto[] = [
-        {
+  produtos = [
+    {
       nome: 'Teclado',
       preco: 299.99
     },
@@ -25,5 +25,8 @@ export class ListaProdutos {
       nome: 'Notebook da Positivo',
       preco: -2899.99
     }
-  ]
+  ];
+  exibirProduto(nome: string) {
+    console.log('Produto Selecionado: ', nome)
+  }
 }
