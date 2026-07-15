@@ -3,7 +3,7 @@ import { Produto } from '../../components/produto/produto';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [],
+  imports: [Produto],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
