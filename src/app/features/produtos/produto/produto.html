@@ -1,10 +1,15 @@
-<div>
-    <h3>
+<div style="
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24vh;
+    width: 12vw;
+">
+    <h3 style="margin: 0;">
         {{ nome }}
     </h3>
-    <p>
+    <p style="margin: 0;">
         {{ preco | precoFormatado }}
     </p>
-
-    <button (click)="selecionarProduto()">Selecionar {{ nome }}</button>
+    <button (click)="selecionarProduto()">Selecionar {{ nome }}</button> 
 </div>
