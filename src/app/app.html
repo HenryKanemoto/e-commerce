@@ -1,1 +1,16 @@
-<app-lista-produtos></app-lista-produtos>
+
+<!--Cabecalho: nome da loja criado com a variável {{nomeLoja}}-->
+<!--Para alterar o nome da loja localizar na class App variável nomeLoja-->
+<h1>
+    {{ nomeLoja }}
+</h1>
+
+<!--Barra de navegação, adicionar links-->
+<nav style="display: flex; gap: 10px;">
+    <a routerLink="/" style="color: black; text-decoration: none;">Produtos</a>
+    <p style="margin: 0;">|</p>
+    <a routerLink="/carrinho" style="color: black; text-decoration: none;">Carrinho</a>
+</nav>
+<hr />
+
+<router-outlet></router-outlet>
