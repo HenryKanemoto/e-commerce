@@ -9,34 +9,34 @@
 </h2>
 <section style="
     display: flex;
-    justify-content: space-evenly;
-    justify-items: flex-start;
-    flex-wrap: wrap;
+    justify-content: left;
 ">
-    @for (item of produtos(); track item) 
-    {
-        <div style="
-            background-color: aliceblue;
-            border: 2px, solid, aliceblue;
-            border-radius: 24px;
-            margin: 16px 0;
-            padding: 16px;
-            ">
-            <app-produto
-                [nome] = "item.nome"
-                [preco] = "item.preco"
-                (produtoSelecionado)="exibirProduto($event)"
-            ></app-produto>
-            
-            <h2><button 
-                style="padding: 8px;
-                       border: 0;
-                       border-radius: 4px;
-                       background-color: lightgreen;"
-                (click)="adicionarAoCarrinho(item)"
-            >Adicionar ao Carrinho</button></h2>
-        </div>
-    }
+    <div style="display: flex; flex-wrap: wrap; gap: 5%; width: 100%">
+        @for (item of produtos(); track item) 
+        {
+            <div style="
+                background-color: aliceblue;
+                border: 2px, solid, aliceblue;
+                border-radius: 24px;
+                margin: 16px 0;
+                padding: 16px;
+                ">
+                <app-produto
+                    [nome] = "item.nome"
+                    [preco] = "item.preco"
+                    (produtoSelecionado)="exibirProduto($event)"
+                ></app-produto>
+                
+                <h2><button 
+                    style="padding: 8px;
+                           border: 0;
+                           border-radius: 4px;
+                           background-color: lightgreen;"
+                    (click)="adicionarAoCarrinho(item)"
+                >Adicionar ao Carrinho</button></h2>
+            </div>
+        }
+    </div>
 </section>
 <h2>Carrinho</h2>
 @for (item of carrinho(); track $index) {
