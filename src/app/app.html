@@ -1,16 +1,19 @@
 
 <!--Cabecalho: nome da loja criado com a variável {{nomeLoja}}-->
 <!--Para alterar o nome da loja localizar na class App variável nomeLoja-->
-<h1>
-    {{ nomeLoja }}
-</h1>
-
-<!--Barra de navegação, adicionar links-->
-<nav style="display: flex; gap: 10px;">
-    <a routerLink="/" style="color: black; text-decoration: none;">Produtos</a>
-    <p style="margin: 0;">|</p>
-    <a routerLink="/carrinho" style="color: black; text-decoration: none;">Carrinho</a>
-</nav>
-<hr />
+<header style="padding: 24px; margin-bottom: 24px; border-radius: 0 0 12px 12px; background-color: lightblue;">
+    <h1>
+        {{ nomeLoja }}
+    </h1>
+    
+    <!--Barra de navegação, adicionar links-->
+    <nav style="display: flex; gap: 10px; margin-left: 56px; margin-top: 12px;">
+        <a routerLink="/" style="color: black; text-decoration: none;">Home</a>
+        <p style="margin: 0;">|</p>
+        <a routerLink="/produtos" style="color: black; text-decoration: none;">Produtos</a>
+        <p style="margin: 0;">|</p>
+        <a routerLink="/carrinho" style="color: black; text-decoration: none;">Carrinho</a>
+    </nav>
+</header>
 
 <router-outlet></router-outlet>
