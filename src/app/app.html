@@ -15,5 +15,11 @@
         <a routerLink="/carrinho" style="color: black; text-decoration: none;">Carrinho</a>
     </nav>
 </header>
+<section>
+    <button (click)="login()">Login</button>
+    <button (click)="logout()">Logout</button>
+
+    <p>Status: {{ usuarioLogado() ? 'Logado' : 'Deslogado'}} </p>
+</section>
 
 <router-outlet></router-outlet>
