@@ -1,6 +1,10 @@
-import { Component, signal, computed, effect } from '@angular/core';
+import { Component, signal, computed, effect, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Produto } from '../produto/produto';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
+import { produtoService } from '../produto/produto.service';
+import { Inject } from '@angular/core';
+import { error } from 'console';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -9,50 +13,40 @@ import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-  produtos = signal([
-    {
-      nome: 'Teclado',
-      preco: 299.99
-    },
-    {
-      nome: 'Monitor',
-      preco: 449.99
-    },
-    {
-      nome: 'Mouse',
-      preco: 179.99
-    },
-    {
-      nome: 'Notebook da Positivo',
-      preco: -2899.99
-    }
-  ]);
 
+  //? ===== SIGNALS ======================================
+  // Signal do produto
+  produtos = signal<{ nome: string; preco: number }[]>([]);
+  // Signal do carrinho
+  carrinho = signal<{nome: string; preco: number}[]>([]);
+  // Controle de carregamento
+  carregando = signal(true);
+  // Signal do produto que foi selecionado
   produtoSelecionado = signal<string | null>(null);
+
+  //? ===== COMPUTED ======================================
   totalProdutos = computed(() => this.produtos().length);
   
-  exibirProduto(nome: string) {
-    console.log('Produto Selecionado: ', nome);
-  };
-  
   valorTotal = computed(() => {
-    return this.produtos().reduce(
-    (total, item) => total + item.preco, 0)
+    return this.produtos()
+    .reduce((total, item) => total + item.preco, 0)
   });
-  
-    adicionarProduto() {
-      this.produtos.update(listaAtual => [
-        ...listaAtual, 
-        {nome: 'Teclado', preco: 250}
-      ]);
-    }
-    subtituirProdutos () {
-      this.produtos.set([
-        {nome: 'Arroz', preco: 100}
-      ]);
-    }
-  
-  constructor() {
+
+  quantidade_carrinho = computed( () => this.carrinho().length);
+
+  total_carrinho = computed(() => {
+    return this.carrinho().reduce(
+      (total, item) => total + item.preco, 0
+    )
+  });
+
+  //?===== CONSTRUCTOR ======================================
+  constructor(private http: HttpClient) {
+    
+    // Carrega da API
+    this.carregarProdutos();
+
+    // effects
     effect(() => {
       console.log('Lista de produtos alterada: ', this.produtos());
     });
@@ -66,13 +60,45 @@ export class ListaProdutos {
     });
   }
 
-  carrinho = signal<{nome: string; preco: number}[]>([]);
-  quantidade_carrinho = computed( () => this.carrinho().length);
-  total_carrinho = computed(() => {
-    return this.carrinho().reduce(
-      (total, item) => total + item.preco, 0
-    )
-  });
+  //? ===== MÉTODOS HTTP (API) ======================================
+
+  carregarProdutos() {
+
+    this.carregando.set(true);
+
+    this.produtoService.buscarProdutos().subscribe({
+      next: (dados) => {
+        const produtos = this.produtoService.transformarProdutos(dados);
+        this.produtos.set(produtos);
+        this.carregando.set(false);
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar os Produtos: ', erro);
+        this.carregando.set(false);
+      }
+    })
+  };
+
+  //? ===== Métodos dos produtos ====================================== 
+
+  exibirProduto(nome: string) {
+    console.log('Produto Selecionado: ', nome);
+  };
+  
+  
+    adicionarProduto() {
+      this.produtos.update(listaAtual => [
+        ...listaAtual, 
+        {nome: 'Teclado', preco: 250}
+      ]);
+    }
+    subtituirProdutos () {
+      this.produtos.set([
+        {nome: 'Arroz', preco: 100}
+      ]);
+    }
+  
+
   adicionarAoCarrinho (produto: {nome: string; preco: number}) {
     this.carrinho.update(listaAtual => [
       ...listaAtual,
@@ -82,4 +108,7 @@ export class ListaProdutos {
   removeTodosProdutos() {
     this.produtos.set([]);
   }
+
+  //? ====== INJECT ====================================== 
+  private produtoService = inject(produtoService);
 }
